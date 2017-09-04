@@ -2,9 +2,8 @@
 processors = 0
 with open('/proc/cpuinfo') as cpufile:
 	for line in cpufile:
-		if line.find('cpu cores') != -1 :
-			processors += int(line[line.find(':')+2::])
-
+		if line.find('core id') != -1:
+			processors += 1
 print("No. of processors are : %d " %processors)
 
 	
