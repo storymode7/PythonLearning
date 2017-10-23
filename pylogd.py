@@ -1133,8 +1133,8 @@ for x in loglist :
 		userdict[nick].append(0)
 		userdict[nick].append(0)
 
-	userdict[nick][1] += 1
-	userdict[nick][2] += len( x[x.find('>') + 2 ::].split(" "))
+	userdict[nick][1] = userdict[nick][1] + 1
+	userdict[nick][2] = userdict[nick][2] + len( x[x.find('>') + 2 ::].split(" "))
 print("No. of total nicks were %d ." %(len(userdict)))
 
 for x in userdict :
