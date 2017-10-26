@@ -4,6 +4,30 @@
 # then download it in the current directory
 import requests
 import os
+from bs4 import BeautifulSoup
+def img_check( req ) :
+    magic_dict = {
+                'png' : b'\x89\x50\x4E\x47\x0D\x0A\x1A\x0A' ,
+                'jpg' : b'\xFF\xD8' ,
+                 }
+    if req.content.startswith(magic_dict['png'] )   :
+        print('Image type : png')
+        return 1
+
+    elif req.content.startswith(magic_dict['jpg'] ) :
+        print('Image type : jpg/jpeg')
+        return 1
+    else:
+        try:
+            beautified = BeautifulSoup(req.content,'xml') 
+            if beautified.format.text.startswith('image/svg') :
+                print('Image type : svg')
+                return 1
+        except:
+            print('Sorry! File type not supported . ')
+            return 0
+                
+
 def download_pic ( url ) :
     if url.split('.')[-1] not in ('png','jpg','svg') :
         print('Not an image url ')
@@ -12,7 +36,8 @@ def download_pic ( url ) :
     if req.status_code != 200 : 
         print('Error getting the page ! ')
         exit()
-    
+    if  img_check(req) == 0:
+        exit()
     filename=url.split('/')[-1] 
     #Renaming file , if another with same name exists 
     counter=1
